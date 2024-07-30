@@ -26,42 +26,47 @@ The project consists of the following main components:
 
 ## Installation
 To run this project, ensure you have Python installed. Follow these steps to set up the environment:
+
 1. Clone the repository
 ```
 git clone https://github.com/patelsoumyaranjan04/Container_Terminal_Simulation.git
 cd Container_Terminal_Simulation
 ```
-2.Create a virtual environment (optional but recommended):
+2. Create a virtual environment (optional but recommended):
 ```
 python -m venv venv
 source venv/bin/activate   # On Windows: venv\Scripts\activate
 
 ```
-3.Install the required packages:
+3. Install the required packages:
 ```
 pip install -r requirements.txt
 
 ```
 
 ## Configuration
-The simulation parameters can be adjusted in the `config.py` file. Here are the default settings:
-Ensure you have the following installed:
+The simulation parameters can be adjusted in the `config.py` file. 
+
+Here are the default settings:
+
 
 ```
 # Configurable parameters
 
 # Vessel parameters
 AVERAGE_INTERARRIVAL_TIME = 5  # Average interarrival time in hours
-NUM_CONTAINERS = 100 # Number of containers per vessel
+NUM_CONTAINERS = 150 # Number of containers per vessel
 
 # Terminal resources
 NUM_BERTHS = 2  # Number of berth slots
 NUM_CRANES = 2  # Number of quay cranes
+CRANES_PER_BERTH=1 #Number of cranes per berth
 CRANE_LIFT_TIME = 3  # Time to lift one container in minutes
 
 # Truck parameters
 NUM_TRUCKS = 3  # Number of trucks
 TRUCK_CYCLE_TIME = 6  # Time for truck to drop off container and return in minutes
+
 
 ```
 
@@ -81,12 +86,10 @@ Enter the number of hours to run the simulation: 24
 ## Simulation Details
 ### Vessel Class (`vessel.py`)
 
-- **berth:** Simulates the vessel berthing process.
-- **unload_container:** Handles the unloading of a single container using a crane and requests a truck for transportation.
-- **transport_container:** Manages the transportation of a container by a truck.
-- **unload_next_container:** Unloads the next container if there are any remaining.
-- **unload:** Oversees the unloading of all containers from the vessel.
-- **process:** Coordinates the entire sequence of arrival, berthing, and unloading.
+- **berth:** Simulates the vessel berthing process, manages the allocation of cranes, and waits for all cranes to complete the unloading process.
+- **transport_container:** Manages the transportation of a container by a truck from the vessel to the storage yard.
+- **unload:** Manages the unloading of all containers from the vessel using cranes, and requests trucks for transporting the containers. It ensures cranes operate efficiently without waiting for truck availability.
+- **process:** Coordinates the entire sequence of arrival, berthing, and unloading of the vessel.
 
 ### Simulation Class (`simulation.py`)
 
@@ -99,17 +102,20 @@ The simulation will produce output similar to the following, detailing the progr
 
 ```
 Enter the number of hours to run the simulation: 5
-Time 89.13270118681714: Vessel 1 arrives.
-Time 89.13270118681714: Vessel 1 starts berthing.
-Time 89.13270118681714: Crane starts unloading container 1 from vessel 1.
-Time 92.13270118681714: Crane finished unloading container 1 from vessel 1.
-Time 92.13270118681714: Truck assigned to container 1 from vessel 1.
-Time 92.13270118681714: Truck starts transporting container 1 from vessel 1.
-Time 92.13270118681714: Crane starts unloading container 2 from vessel 1.
-Time 95.13270118681714: Crane finished unloading container 2 from vessel 1.
-Time 95.13270118681714: Truck assigned to container 2 from vessel 1.
-Time 95.13270118681714: Truck starts transporting container 2 from vessel 1.
-Time 95.13270118681714: Crane starts unloading container 3 from vessel 1.
+Time 277.60: Vessel 1 has arrived at port.
+Time 277.60: Vessel 1 starts berthing.
+Time 277.60: Vessel 1 has acquired a crane
+Time 277.60: Crane starts unloading  Container 1 from Vessel 1
+Time 280.60: Crane finished unloading  Container 1 from Vessel 1
+Time 280.60: Container 1 from Vessel 1 is waiting for a truck
+Time 280.60: Container 1 from Vessel 1 has acquired a truck
+Time 280.60: Crane starts unloading  Container 2 from Vessel 1
+Time 280.60: Truck starts transporting container 1 from vessel 1.
+Time 283.60: Crane finished unloading  Container 2 from Vessel 1
+Time 283.60: Container 2 from Vessel 1 is waiting for a truck
+Time 283.60: Container 2 from Vessel 1 has acquired a truck
+Time 283.60: Crane starts unloading  Container 3 from Vessel 1
+Time 283.60: Truck starts transporting container 2 from vessel 1.
 ```
 
 ## License
