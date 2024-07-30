@@ -7,6 +7,7 @@ NUM_CONTAINERS = 150 # Number of containers per vessel
 # Terminal resources
 NUM_BERTHS = 2  # Number of berth slots
 NUM_CRANES = 2  # Number of quay cranes
+CRANES_PER_BERTH=1 #Number of cranes per berth
 CRANE_LIFT_TIME = 3  # Time to lift one container in minutes
 
 # Truck parameters
